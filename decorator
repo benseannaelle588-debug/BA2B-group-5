@@ -1,0 +1,49 @@
+<?php
+// Component
+interface Coffee {
+    public function cost();
+}
+
+// Concrete Component
+class SimpleCoffee implements Coffee {
+    public function cost() {
+        return 10;
+    }
+}
+
+// Decorator
+abstract class CoffeeDecorator implements Coffee {
+    protected $coffee;
+
+    public function __construct(Coffee $coffee) {
+        $this->coffee = $coffee;
+    }
+
+    public function cost() {
+        return $this->coffee->cost();
+    }
+}
+
+// Concrete Decorators
+class MilkDecorator extends CoffeeDecorator {
+    public function cost() {
+        return parent::cost() + 2;
+    }
+}
+
+class SugarDecorator extends CoffeeDecorator {
+    public function cost() {
+        return parent::cost() + 1;
+    }
+}
+
+// Usage
+$coffee = new SimpleCoffee();
+echo $coffee->cost(); // 10
+
+$coffee = new MilkDecorator($coffee);
+echo $coffee->cost(); // 12
+
+$coffee = new SugarDecorator($coffee);
+echo $coffee->cost(); // 13
+?>
